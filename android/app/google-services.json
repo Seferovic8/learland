@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1050485654954",
+    "firebase_url": "https://learland-31bf9-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "learland-31bf9",
+    "storage_bucket": "learland-31bf9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1050485654954:android:8803751077de67ba2ed7d3",
+        "android_client_info": {
+          "package_name": "com.example.learland"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1050485654954-4gjl8fdjq0e4vh87hg461itve9n6jq53.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBk6nMfZFAJhpruHPKspUhhRKctRyoo0iA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1050485654954-4gjl8fdjq0e4vh87hg461itve9n6jq53.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
