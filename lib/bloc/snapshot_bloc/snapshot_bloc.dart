@@ -11,11 +11,12 @@ class SnapshotBloc extends Bloc<SnapshotEvent, SnapshotState> {
     on<SendSnapshotEvent>(sendSnapshot);
     on<CloseSnapshotEvent>(closeSnapshot);
     on<UpdateSnapshotEvent>(update);
+    on<AddInstanceEvent>(addInstance);
   }
 
   Future<void> loadSnapshot(LoadSnapshotEvent event, Emitter emit) async {
-    final stakleniciConnParams = FirebaseFirestore.instance.collection(event.uid).doc(event.name).collection("Params").doc("Parametri");
-    final stakleniciConnUprav = FirebaseFirestore.instance.collection(event.uid).doc(event.name).collection("Params").doc("Upravljanje");
+    final stakleniciConnParams = FirebaseFirestore.instance.collection(event.uid).doc(event.name).collection("Maintrance").doc("parameters");
+    final stakleniciConnUprav = FirebaseFirestore.instance.collection(event.uid).doc(event.name).collection("Maintrance").doc("manual");
     _streamSubscriptionParams = stakleniciConnParams.snapshots().listen((event) {
       if (event.data()!.isNotEmpty) {
         add(SendSnapshotEvent(state: state.copyWith(status: SnapshotStateStatus.updated, paramModel: ParametriModel.fromMap(event.data() as Map<String, dynamic>))));
@@ -30,6 +31,10 @@ class SnapshotBloc extends Bloc<SnapshotEvent, SnapshotState> {
     // // data.listen((event) {
     // //   print(event);
     // // });
+  }
+
+  Future<void> addInstance(AddInstanceEvent event, Emitter emit) async {
+    await snapshotRepository.add(uid: event.uid, name: event.name);
   }
 
   Future<void> sendSnapshot(SendSnapshotEvent event, Emitter emit) async {

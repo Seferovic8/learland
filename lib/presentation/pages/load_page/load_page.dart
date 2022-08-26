@@ -1,6 +1,4 @@
-import 'package:flutter/services.dart';
 import 'package:learland/_all.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class LoadPage extends StatefulWidget {
   LoadPage({super.key});
@@ -53,16 +51,30 @@ class _LoadPageState extends State<LoadPage> {
             ? Shimmer.fromColors(
                 baseColor: Colors.grey[300]!,
                 highlightColor: Colors.grey[100]!,
-                child: GridView.builder(
-                  padding: const EdgeInsets.all(10.0),
-                  itemCount: 2,
-                  shrinkWrap: true,
-                  itemBuilder: ((context, index) => ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Container(
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(24), color: const Color.fromRGBO(162, 191, 132, 1), border: Border.all(strokeAlign: StrokeAlign.inside, color: ColorStyling.defaultColor, width: 2)),
-                      ))),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1, crossAxisSpacing: 10, mainAxisExtent: 150),
+                child: Column(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 20),
+                      child: ListTile(
+                        title: Container(
+                          height: 34,
+                          decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(10), border: Border.all(width: 1, color: ColorStyling.defaultColor, style: BorderStyle.solid)),
+                        ),
+                        trailing: const Icon(Icons.search, color: ColorStyling.defaultColor, size: 32),
+                      ),
+                    ),
+                    GridView.builder(
+                      padding: const EdgeInsets.all(10.0),
+                      itemCount: 2,
+                      shrinkWrap: true,
+                      itemBuilder: ((context, index) => ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Container(
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(24), color: const Color.fromRGBO(162, 191, 132, 1), border: Border.all(strokeAlign: StrokeAlign.inside, color: ColorStyling.defaultColor, width: 2)),
+                          ))),
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1, crossAxisSpacing: 10, mainAxisExtent: 150),
+                    ),
+                  ],
                 ),
               )
             : SingleChildScrollView(
@@ -101,7 +113,18 @@ class _LoadPageState extends State<LoadPage> {
                 // ],
               ),
       ),
-      // floatingActionButton: FloatingActionButton,
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () => showModalBottomSheet(
+            isScrollControlled: true,
+            context: context,
+            builder: (_) {
+              return GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                child: LoadAddModal(),
+              );
+            }),
+      ),
     );
   }
 }

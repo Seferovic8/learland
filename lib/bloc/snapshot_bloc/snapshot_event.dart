@@ -35,3 +35,12 @@ class UpdateSnapshotEvent extends SnapshotEvent {
     required this.status,
   });
 }
+class AddInstanceEvent extends SnapshotEvent {
+  final String uid;
+  final String name;
+
+  AddInstanceEvent({
+    required this.uid,
+    required this.name,
+  });
+}
