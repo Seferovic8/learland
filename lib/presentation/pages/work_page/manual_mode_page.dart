@@ -1,6 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:flutter_switch/flutter_switch.dart';
-
 import 'package:learland/_all.dart';
 
 enum TypeOfParametri { vlaznostZemlje, vlaznostZraka, temperaturaZemlje, temperaturaZraka, nivoCo2, jakostSvjetla }
@@ -84,7 +81,7 @@ class _ParametriWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          "Ručni mod",
+          'Ručni mod',
           style: TextStyle(
             color: ColorStyling.defaultColor,
             fontSize: 23,
@@ -94,7 +91,7 @@ class _ParametriWidget extends StatelessWidget {
         Container(
           padding: const EdgeInsets.only(left: 8, bottom: 6),
           child: const Text(
-            "Parametri:",
+            'Parametri:',
             style: TextStyle(
               color: ColorStyling.defaultColor,
               fontSize: 18,
@@ -138,41 +135,41 @@ class _ParametriWidget extends StatelessWidget {
 }
 
 class _ParametriVrijednosti extends StatelessWidget {
-  String uid = "";
+  String uid = '';
   final TypeOfParametri typeOfParametri;
   final double width;
 
   String getNaziv(TypeOfParametri top) {
     switch (top) {
       case TypeOfParametri.vlaznostZemlje:
-        return "Vlažnost zemlje:";
+        return 'Vlažnost zemlje:';
       case TypeOfParametri.vlaznostZraka:
-        return "Vlažnost zraka:";
+        return 'Vlažnost zraka:';
       case TypeOfParametri.temperaturaZemlje:
-        return "Temperatura zemlje:";
+        return 'Temperatura zemlje:';
       case TypeOfParametri.temperaturaZraka:
-        return "Temperatura zraka:";
+        return 'Temperatura zraka:';
       case TypeOfParametri.nivoCo2:
-        return "Nivo CO2 u zraku:";
+        return 'Nivo CO2 u zraku:';
       case TypeOfParametri.jakostSvjetla:
-        return "Jakost svjetla:";
+        return 'Jakost svjetla:';
     }
   }
 
   String getJedinica(TypeOfParametri top) {
     switch (top) {
       case TypeOfParametri.vlaznostZemlje:
-        return "ppm/m";
+        return 'ppm/m';
       case TypeOfParametri.vlaznostZraka:
-        return "ppm/m";
+        return 'ppm/m';
       case TypeOfParametri.temperaturaZemlje:
-        return "°C";
+        return '°C';
       case TypeOfParametri.temperaturaZraka:
-        return "°C";
+        return '°C';
       case TypeOfParametri.nivoCo2:
-        return "%";
+        return '%';
       case TypeOfParametri.jakostSvjetla:
-        return "jak";
+        return 'jak';
     }
   }
 
@@ -181,100 +178,112 @@ class _ParametriVrijednosti extends StatelessWidget {
   Widget build(BuildContext context) {
     uid = context.read<AuthBloc>().state.user!.user!.uid;
     return Container(
-      margin: const EdgeInsets.only(top: 20),
-      width: width * 0.8,
-      height: 90,
-      decoration: BoxDecoration(border: Border.all(color: ColorStyling.defaultColor, width: 2), borderRadius: BorderRadius.circular(23)),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: typeOfParametri != TypeOfParametri.jakostSvjetla
-            ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    getNaziv(typeOfParametri),
-                    style: const TextStyle(color: ColorStyling.defaultColor, fontSize: 20, fontWeight: FontWeight.normal, fontFamily: "Roboto"),
-                  ),
-                  BlocBuilder<SnapshotBloc, SnapshotState>(builder: (context, state) {
-                    if ([SnapshotStateStatus.loading, SnapshotStateStatus.initial].contains(state.status)) {
-                      return Shimmer.fromColors(
-                        baseColor: Colors.grey[300]!,
-                        highlightColor: Colors.grey[100]!,
-                        child: Container(
-                          width: width * 0.8,
-                          height: 30,
-                          color: Colors.grey[300]!,
-                        ),
-                      );
-                    }
-                    var data = getParamFrNaziv(typeOfParametri, state.paramModel as ParametriModel);
-                    final mjernaJedinica = getJedinica(typeOfParametri);
-                    return Padding(
-                      padding: const EdgeInsets.all(7.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            "${data.toString()} ",
-                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.normal, fontFamily: "Roboto"),
-                          ),
-                          Text(
-                            mjernaJedinica,
-                            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.normal, fontFamily: "Roboto"),
-                          )
-                        ],
-                      ),
-                    );
-                  }),
-                ],
-              )
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      getNaziv(typeOfParametri),
-                      style: const TextStyle(color: ColorStyling.defaultColor, fontSize: 20, fontWeight: FontWeight.normal, fontFamily: "Roboto"),
-                    ),
-                  ),
-                  BlocBuilder<SnapshotBloc, SnapshotState>(
-                    builder: (context, state) {
-                      if ([SnapshotStateStatus.loading, SnapshotStateStatus.initial].contains(state.status)) {
-                        return Shimmer.fromColors(
-                          baseColor: Colors.grey[300]!,
-                          highlightColor: Colors.grey[100]!,
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: 60,
-                            height: 60,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(11221),
-                              color: Colors.grey[300]!,
-                            ),
-                          ),
-                        );
-                      }
-                      //  print(data);
-                      final jakSvjetla = getParamFrNaziv(typeOfParametri, state.paramModel as ParametriModel);
-                      return Container(
-                          alignment: Alignment.center,
-                          width: 60,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(11221),
-                            color: jakSvjetla < 10 ? Colors.black : Color.fromRGBO(255, 255, 0, jakSvjetla / 100),
-                          ),
-                          child: Text(
-                            "${jakSvjetla.toString()}%",
-                            style: TextStyle(fontFamily: "Roboto", color: jakSvjetla < 10 ? Colors.white : Colors.black),
-                          ));
-                    },
-                  ),
-                ],
+        margin: const EdgeInsets.only(top: 20),
+        width: width * 0.8,
+        height: 90,
+        decoration: BoxDecoration(border: Border.all(color: ColorStyling.defaultColor, width: 2), borderRadius: BorderRadius.circular(23)),
+        child: BlocBuilder<ErrorBloc, ErrorState>(builder: (context, errorState) {
+          if (errorState.parametersError) {
+            return Container(
+              padding: const EdgeInsets.all(12),
+              width: width * 0.8,
+              height: 30,
+              child: const Text(
+                'Dogodila se greška',
+                style: TextStyle(color: ColorStyling.error),
               ),
-      ),
-    );
+            );
+          }
+          return Padding(
+              padding: const EdgeInsets.all(12),
+              child: typeOfParametri != TypeOfParametri.jakostSvjetla
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          getNaziv(typeOfParametri),
+                          style: const TextStyle(color: ColorStyling.defaultColor, fontSize: 20, fontWeight: FontWeight.normal, fontFamily: 'Roboto'),
+                        ),
+                        BlocBuilder<SnapshotBloc, SnapshotState>(builder: (context, state) {
+                          if ([SnapshotStateStatus.loading, SnapshotStateStatus.initial].contains(state.status)) {
+                            return Shimmer.fromColors(
+                              baseColor: Colors.grey[300]!,
+                              highlightColor: Colors.grey[100]!,
+                              child: Container(
+                                width: width * 0.8,
+                                height: 30,
+                                color: Colors.grey[300]!,
+                              ),
+                            );
+                          }
+
+                          final data = getParamFrNaziv(typeOfParametri, state.paramModel as ParametriModel);
+                          final mjernaJedinica = getJedinica(typeOfParametri);
+                          return Padding(
+                            padding: const EdgeInsets.all(7.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  '${data.toString()} ',
+                                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.normal, fontFamily: 'Roboto'),
+                                ),
+                                Text(
+                                  mjernaJedinica,
+                                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.normal, fontFamily: 'Roboto'),
+                                )
+                              ],
+                            ),
+                          );
+                        }),
+                      ],
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            getNaziv(typeOfParametri),
+                            style: const TextStyle(color: ColorStyling.defaultColor, fontSize: 20, fontWeight: FontWeight.normal, fontFamily: 'Roboto'),
+                          ),
+                        ),
+                        BlocBuilder<SnapshotBloc, SnapshotState>(
+                          builder: (context, state) {
+                            if ([SnapshotStateStatus.loading, SnapshotStateStatus.initial].contains(state.status)) {
+                              return Shimmer.fromColors(
+                                baseColor: Colors.grey[300]!,
+                                highlightColor: Colors.grey[100]!,
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  width: 60,
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(11221),
+                                    color: Colors.grey[300]!,
+                                  ),
+                                ),
+                              );
+                            }
+                            //  print(data);
+                            final jakSvjetla = getParamFrNaziv(typeOfParametri, state.paramModel as ParametriModel);
+                            return Container(
+                                alignment: Alignment.center,
+                                width: 60,
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(11221),
+                                  color: jakSvjetla < 10 ? Colors.black : Color.fromRGBO(255, 255, 0, jakSvjetla / 100),
+                                ),
+                                child: Text(
+                                  '${jakSvjetla.toString()}%',
+                                  style: TextStyle(fontFamily: 'Roboto', color: jakSvjetla < 10 ? Colors.white : Colors.black),
+                                ));
+                          },
+                        ),
+                      ],
+                    ));
+        }));
   }
 }
 
@@ -299,7 +308,7 @@ class _UpravljanjeWidget extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.only(left: 8, bottom: 6),
               child: const Text(
-                "Upravljanje:",
+                'Upravljanje:',
                 style: TextStyle(
                   color: ColorStyling.defaultColor,
                   fontSize: 18,
@@ -329,11 +338,11 @@ class _UpravljanjeWidget extends StatelessWidget {
             ),
             child: Column(
               children: [
-                _UpravljanjeKontrola(title: "Navodnjavanje", typeOfUpravljanje: TypeOfUpravljanje.navodnjavanje, workFullName: workFullName),
-                _UpravljanjeKontrola(title: "Provjetravanje", typeOfUpravljanje: TypeOfUpravljanje.provjetravanje, workFullName: workFullName),
-                _UpravljanjeKontrola(title: "Grijanje", typeOfUpravljanje: TypeOfUpravljanje.grijanje, workFullName: workFullName),
-                _UpravljanjeKontrola(title: "Svjetiljke", typeOfUpravljanje: TypeOfUpravljanje.svjetiljke, workFullName: workFullName),
-                _UpravljanjeKontrola(title: "Vrata", typeOfUpravljanje: TypeOfUpravljanje.vrata, workFullName: workFullName),
+                _UpravljanjeKontrola(title: 'Navodnjavanje', typeOfUpravljanje: TypeOfUpravljanje.navodnjavanje, workFullName: workFullName),
+                _UpravljanjeKontrola(title: 'Provjetravanje', typeOfUpravljanje: TypeOfUpravljanje.provjetravanje, workFullName: workFullName),
+                _UpravljanjeKontrola(title: 'Grijanje', typeOfUpravljanje: TypeOfUpravljanje.grijanje, workFullName: workFullName),
+                _UpravljanjeKontrola(title: 'Svjetiljke', typeOfUpravljanje: TypeOfUpravljanje.svjetiljke, workFullName: workFullName),
+                _UpravljanjeKontrola(title: 'Vrata', typeOfUpravljanje: TypeOfUpravljanje.vrata, workFullName: workFullName),
               ],
             ),
           ),
@@ -352,10 +361,10 @@ void _loadUI(snapshot, BuildContext context) {
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: const Text("OK"),
+                child: const Text('OK'),
               )
             ],
-            title: const Text("Something went wrong"),
+            title: const Text('Something went wrong'),
             content: Text(snapshot.error.toString()),
           );
         });
@@ -380,12 +389,22 @@ class _UpravljanjeKontrola extends StatelessWidget {
     final mediaQuery = MediaQuery.of(context);
     uid = context.read<AuthBloc>().state.user!.user!.uid;
     final width = mediaQuery.size.width;
-    return Column(
-      children: [
-        Container(
-          width: width,
-          padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
-          child: Row(
+    return Container(
+      width: width,
+      padding: const EdgeInsets.only(left: 12, right: 12, top: 12),
+      child: BlocBuilder<ErrorBloc, ErrorState>(
+        builder: (context, errorState) {
+          if (errorState.manualError) {
+            return Container(
+              width: width * 0.8,
+              height: 30,
+              child: const Text(
+                'Dogodila se greška',
+                style: TextStyle(color: ColorStyling.error),
+              ),
+            );
+          }
+          return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
@@ -419,9 +438,9 @@ class _UpravljanjeKontrola extends StatelessWidget {
                 },
               ),
             ],
-          ),
-        ),
-      ],
+          );
+        },
+      ),
     );
   }
 }

@@ -6,7 +6,8 @@ class SnapshotBloc extends Bloc<SnapshotEvent, SnapshotState> {
   late StreamSubscription _streamSubscriptionpUprav;
   late StreamSubscription _streamSubscriptionParams;
   final ISnapshotRepository snapshotRepository;
-  SnapshotBloc({required this.snapshotRepository}) : super(SnapshotState(status: SnapshotStateStatus.initial)) {
+  late ErrorBloc errorBloc;
+  SnapshotBloc({required this.snapshotRepository, required this.errorBloc}) : super(SnapshotState(status: SnapshotStateStatus.initial)) {
     on<LoadSnapshotEvent>(loadSnapshot);
     on<SendSnapshotEvent>(sendSnapshot);
     on<CloseSnapshotEvent>(closeSnapshot);
@@ -15,16 +16,25 @@ class SnapshotBloc extends Bloc<SnapshotEvent, SnapshotState> {
   }
 
   Future<void> loadSnapshot(LoadSnapshotEvent event, Emitter emit) async {
-    final stakleniciConnParams = FirebaseFirestore.instance.collection(event.uid).doc(event.name).collection("Maintrance").doc("parameters");
-    final stakleniciConnUprav = FirebaseFirestore.instance.collection(event.uid).doc(event.name).collection("Maintrance").doc("manual");
+    final stakleniciConnParams = FirebaseFirestore.instance.collection(event.uid).doc(event.name).collection('Maintrance').doc('parameters');
+    final stakleniciConnUprav = FirebaseFirestore.instance.collection(event.uid).doc(event.name).collection('Maintrance').doc('manual');
     _streamSubscriptionParams = stakleniciConnParams.snapshots().listen((event) {
-      if (event.data()!.isNotEmpty) {
-        add(SendSnapshotEvent(state: state.copyWith(status: SnapshotStateStatus.updated, paramModel: ParametriModel.fromMap(event.data() as Map<String, dynamic>))));
+      if (event.data() != null) {
+        if (event.data()!.isNotEmpty) {
+          add(SendSnapshotEvent(state: state.copyWith(status: SnapshotStateStatus.updated, paramModel: ParametriModel.fromMap(event.data() as Map<String, dynamic>))));
+        }
+      } else {
+        errorBloc.add(AddErrorHandlerEvent(parametersError: true));
       }
     });
     _streamSubscriptionpUprav = stakleniciConnUprav.snapshots().listen((event) {
-      if (event.data()!.isNotEmpty) {
-        add(SendSnapshotEvent(state: state.copyWith(status: SnapshotStateStatus.updated, upravModel: ControlModel.fromMap(event.data() as Map<String, dynamic>))));
+      if (event.data() != null) {
+        if (event.data()!.isNotEmpty) {
+          add(SendSnapshotEvent(state: state.copyWith(status: SnapshotStateStatus.updated, upravModel: ControlModel.fromMap(event.data() as Map<String, dynamic>))));
+        }
+      } else {
+        print('GRESKA');
+        errorBloc.add(AddErrorHandlerEvent(manualError: true));
       }
     });
     // // var data  = snapshotRepository.snapshotListen(event.uid, event.name);

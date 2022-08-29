@@ -1,5 +1,3 @@
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:learland/_all.dart';
 
 class LoadAddModal extends StatefulWidget {
@@ -22,10 +20,10 @@ class _LoadAddModalState extends State<LoadAddModal> {
           child: Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             TextField(
               controller: textController,
-              style: const TextStyle(fontFamily: "Roboto"),
+              style: const TextStyle(fontFamily: 'Roboto'),
               decoration: InputDecoration(
-                labelText: "Naziv Staklenika",
-                labelStyle: const TextStyle(fontFamily: "Roboto", color: ColorStyling.defaultColor),
+                labelText: 'Naziv Staklenika',
+                labelStyle: const TextStyle(fontFamily: 'Roboto', color: ColorStyling.defaultColor),
                 fillColor: ColorStyling.defaultColor,
                 focusColor: ColorStyling.defaultColor,
                 enabledBorder: OutlineInputBorder(
@@ -55,9 +53,10 @@ class _LoadAddModalState extends State<LoadAddModal> {
                 onPressed: () {
                   context.read<SnapshotBloc>().add(AddInstanceEvent(uid: context.read<AuthBloc>().state.user!.user!.uid, name: textController.text));
                   context.read<LoadBloc>().add(LoadGetNamesEvent(uid: context.read<AuthBloc>().state.user!.user!.uid));
+                  textController.clear();
                 },
                 child: const Text(
-                  "Sačuvaj",
+                  'Sačuvaj',
                   style: TextStyle(color: Colors.white, fontSize: 24),
                 ),
               ),

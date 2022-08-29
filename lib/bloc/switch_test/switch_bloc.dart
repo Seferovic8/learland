@@ -21,14 +21,14 @@ class SwitchBloc extends Bloc<SwitchEvent, SwitchState> {
     if (event.autoStatus == true && state.timeStatus == true) {
       autoStatus = true;
       timeStatus = false;
-      bool success = await changeStatus(autoStatus: autoStatus, timeStatus: timeStatus, title: event.title);
+      final bool success = await changeStatus(autoStatus: autoStatus, timeStatus: timeStatus, title: event.title);
       if (success) {
         emit(state.copyWith(autoStatus: autoStatus, timeStatus: timeStatus));
       }
     } else if (event.timeStatus == true && state.autoStatus == true) {
       autoStatus = false;
       timeStatus = true;
-      bool success = await changeStatus(autoStatus: autoStatus, timeStatus: timeStatus, title: event.title);
+      final bool success = await changeStatus(autoStatus: autoStatus, timeStatus: timeStatus, title: event.title);
       if (success) {
         emit(state.copyWith(autoStatus: autoStatus, timeStatus: timeStatus));
       }
@@ -36,7 +36,7 @@ class SwitchBloc extends Bloc<SwitchEvent, SwitchState> {
     } else {
       autoStatus = event.autoStatus ?? state.autoStatus;
       timeStatus = event.timeStatus ?? state.timeStatus;
-      bool success = await changeStatus(autoStatus: autoStatus, timeStatus: timeStatus, title: event.title);
+      final bool success = await changeStatus(autoStatus: autoStatus, timeStatus: timeStatus, title: event.title);
       if (success) {
         emit(state.copyWith(autoStatus: autoStatus, timeStatus: timeStatus));
       }
@@ -51,9 +51,9 @@ class SwitchBloc extends Bloc<SwitchEvent, SwitchState> {
   Future<bool> changeStatus({required bool autoStatus, required bool timeStatus, required String title}) async {
     try {
       var stakleniciConn = FirebaseFirestore.instance.collection(uid).doc(title).collection('Automatic').doc('smart');
-      await stakleniciConn.update({"status": autoStatus});
+      await stakleniciConn.update({'status': autoStatus});
       stakleniciConn = FirebaseFirestore.instance.collection(uid).doc(title).collection('Automatic').doc('timed');
-      await stakleniciConn.update({"status": timeStatus});
+      await stakleniciConn.update({'status': timeStatus});
       return true;
     } catch (e) {
       return false;
@@ -61,16 +61,20 @@ class SwitchBloc extends Bloc<SwitchEvent, SwitchState> {
   }
 
   Future<Map<String, bool>> getStatus({required String title}) async {
-    Map<String, bool> mapa = {'autoStatus': false, 'timeStatus': false};
+    final Map<String, bool> mapa = {'autoStatus': false, 'timeStatus': false};
     var stakleniciConn = FirebaseFirestore.instance.collection(uid).doc(title).collection('Automatic').doc('smart');
     var data = await stakleniciConn.get();
-    if (data.data()!.isNotEmpty) {
+    if (data.data() != null && data.data()!.isNotEmpty) {
       mapa['autoStatus'] = data.data()!['status'] as bool;
+    } else {
+      mapa['autoStatus'] = false;
     }
     stakleniciConn = FirebaseFirestore.instance.collection(uid).doc(title).collection('Automatic').doc('timed');
     data = await stakleniciConn.get();
-    if (data.data()!.isNotEmpty) {
+    if (data.data() != null && data.data()!.isNotEmpty) {
       mapa['timeStatus'] = data.data()!['status'] as bool;
+    } else {
+      mapa['timeStatus'] = false;
     }
     return mapa;
   }

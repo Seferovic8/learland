@@ -26,8 +26,8 @@ class AppDrawer extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            _NavButton(callback: () => Navigator.of(context).pushNamed(HomePage.routeName), icon: Icons.home, title: "Početna", isActive: getActive(Pages.homePage)),
-            _NavButton(callback: () => Navigator.of(context).pushNamed(LoadPage.routeName), icon: Icons.share, title: "Staklenici", isActive: getActive(Pages.loadPage)),
+            _NavButton(callback: () => Navigator.of(context).pushNamed(HomePage.routeName), icon: Icons.home, title: 'Početna', isActive: getActive(Pages.homePage)),
+            _NavButton(callback: () => Navigator.of(context).pushNamed(LoadPage.routeName), icon: Icons.share, title: 'Staklenici', isActive: getActive(Pages.loadPage)),
           ],
         ),
       ),

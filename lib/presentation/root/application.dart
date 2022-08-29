@@ -7,10 +7,10 @@ class Application extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(fontFamily: 'MontSerrat'),
-      home: !context.appSettings.skipLogin ? LoadPage() : LoginPage(),
+      home: !context.appSettings.skipLogin ? const LoadPage() : const LoginPage(),
       routes: {
         HomePage.routeName: (context) => HomePage(),
-        LoadPage.routeName: (context) =>  LoadPage(),
+        LoadPage.routeName: (context) =>  const LoadPage(),
         WorkPage.routeName: (context) => const WorkPage(),
       },
     );

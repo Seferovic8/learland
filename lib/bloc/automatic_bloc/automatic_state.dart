@@ -11,7 +11,7 @@ class AutomaticState {
   final Map<String, dynamic> smartVrijednosti;
   final AutomaticSmartStateStatus smartStatus;
   final AutomaticTimedStateStatus timedStatus;
-  AutomaticState({
+  const AutomaticState({
     required this.dateTimeVrijednosti,
     required this.smartVrijednosti,
     required this.smartStatus,

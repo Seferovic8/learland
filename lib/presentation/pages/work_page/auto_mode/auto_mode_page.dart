@@ -42,29 +42,29 @@ class _AutomatskiModPageState extends State<AutomatskiModPage> {
 bool statusTime = false;
 bool statusAuto = true;
 Map<String, double> vrijednosti = {
-  "vlaznostZemlje1": -1123,
-  "vlaznostZemlje2": -1123,
-  "temperaturaZraka1": -1123,
-  "temperaturaZraka2": -1123,
-  "nivoCo21": -1123,
-  "nivoCo22": -1123,
-  "jakostSvjetla": -1123,
+  'vlaznostZemlje1': -1123,
+  'vlaznostZemlje2': -1123,
+  'temperaturaZraka1': -1123,
+  'temperaturaZraka2': -1123,
+  'nivoCo21': -1123,
+  'nivoCo22': -1123,
+  'jakostSvjetla': -1123,
 };
 Map<String, String> dateTimeVrijednosti = {
-  "navodnjavanje1": "",
-  "navodnjavanje2": "",
-  "grijanje1": "",
-  "grijanje2": "",
-  "provjetravanje1": "",
-  "provjetravanje2": "",
-  "svjetiljke1": "",
-  "svjetiljke2": "",
+  'navodnjavanje1': '',
+  'navodnjavanje2': '',
+  'grijanje1': '',
+  'grijanje2': '',
+  'provjetravanje1': '',
+  'provjetravanje2': '',
+  'svjetiljke1': '',
+  'svjetiljke2': '',
 };
 
 class MaintranceWidget extends StatelessWidget {
   final form = GlobalKey<FormState>();
   final String? workFullName;
-  final List<String> params = ["vlaznostZemlje", "temperaturaZraka", "nivoCo2", "jakostSvjetla"];
+  final List<String> params = ['vlaznostZemlje', 'temperaturaZraka', 'nivoCo2', 'jakostSvjetla'];
 
   MaintranceWidget({
     Key? key,
@@ -75,15 +75,17 @@ class MaintranceWidget extends StatelessWidget {
     void formSave() {
       try {
         form.currentState!.save();
-      } catch (e) {}
+      } catch (e) {
+        debugPrint(e.toString());
+      }
       bool isGone = true;
       if (form.currentState!.validate()) {
-        for (var val in params) {
+        for (final val in params) {
           if (!validatorValues(val, vrijednosti)) {
-            context.read<ErrorBloc>().add(AddErrorEvent(key: val));
+            context.read<ErrorColorBloc>().add(AddErrorEvent(key: val));
             isGone = false;
           } else {
-            context.read<ErrorBloc>().add(RemoveAllErrors(key: val));
+            context.read<ErrorColorBloc>().add(RemoveAllErrors(key: val));
           }
         }
         if (isGone == true) {
@@ -91,11 +93,11 @@ class MaintranceWidget extends StatelessWidget {
           context.read<AutomaticBloc>().add(AddSmartAutoEvent(uid: context.read<AuthBloc>().state.user!.user!.uid, name: workFullName as String, data: vrijednosti));
         }
       } else {
-        for (var val in params) {
+        for (final val in params) {
           if (!validatorValues(val, vrijednosti)) {
-            context.read<ErrorBloc>().add(AddErrorEvent(key: val));
+            context.read<ErrorColorBloc>().add(AddErrorEvent(key: val));
           } else {
-            context.read<ErrorBloc>().add(RemoveAllErrors(key: val));
+            context.read<ErrorColorBloc>().add(RemoveAllErrors(key: val));
           }
         }
       }
@@ -106,7 +108,7 @@ class MaintranceWidget extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const Text(
-          "Automatski Mod",
+          'Automatski Mod',
           style: TextStyle(
             color: ColorStyling.defaultColor,
             fontSize: 23,
@@ -118,7 +120,7 @@ class MaintranceWidget extends StatelessWidget {
             Container(
               padding: const EdgeInsets.only(left: 8),
               child: const Text(
-                "Pametno održavanje:",
+                'Pametno održavanje:',
                 style: TextStyle(
                   color: ColorStyling.defaultColor,
                   fontSize: 18,
@@ -190,7 +192,7 @@ class MaintranceWidget extends StatelessWidget {
                             ),
                             onPressed: formSave,
                             child: const Text(
-                              "Sačuvaj",
+                              'Sačuvaj',
                               style: TextStyle(color: Colors.white),
                             ),
                           )),
@@ -223,7 +225,7 @@ class TimeWidget extends HookWidget {
   final _formKey = GlobalKey<FormState>();
   final String? workFullName;
 
-  TimeWidget({this.workFullName});
+  TimeWidget({super.key, this.workFullName});
 
   @override
   Widget build(BuildContext context) {
@@ -250,7 +252,7 @@ class TimeWidget extends HookWidget {
                 child: Container(
                   padding: const EdgeInsets.only(left: 8, bottom: 6),
                   child: const Text(
-                    "Upravljanje:",
+                    'Upravljanje:',
                     style: TextStyle(
                       color: ColorStyling.defaultColor,
                       fontSize: 18,
@@ -264,7 +266,7 @@ class TimeWidget extends HookWidget {
                     width: 100.0,
                     height: 40.0,
                     valueFontSize: 25.0,
-                  toggleSize: 35.0,
+                    toggleSize: 35.0,
                     value: switchState.timeStatus,
                     borderRadius: 30.0,
                     padding: 5.0,
@@ -308,10 +310,10 @@ class TimeWidget extends HookWidget {
                   return IgnorePointer(
                     ignoring: !state.timeStatus,
                     child: Column(children: [
-                      TimeControlWidget(width: width, title: "Navodnjavanje"),
-                      TimeControlWidget(width: width, title: "Grijanje"),
-                      TimeControlWidget(width: width, title: "Provjetravanje"),
-                      TimeControlWidget(width: width, title: "Svjetiljke"),
+                      TimeControlWidget(width: width, title: 'Navodnjavanje'),
+                      TimeControlWidget(width: width, title: 'Grijanje'),
+                      TimeControlWidget(width: width, title: 'Provjetravanje'),
+                      TimeControlWidget(width: width, title: 'Svjetiljke'),
                       Container(
                           alignment: Alignment.centerRight,
                           padding: EdgeInsets.only(right: width - (width * 0.8) - 60, top: 10),
@@ -322,7 +324,7 @@ class TimeWidget extends HookWidget {
                             ),
                             onPressed: saveForm,
                             child: const Text(
-                              "Sačuvaj",
+                              'Sačuvaj',
                               style: TextStyle(color: Colors.white),
                             ),
                           )),

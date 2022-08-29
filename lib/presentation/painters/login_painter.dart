@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'dart:ui' as ui;
+
 class LoginPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    Paint paint0 = Paint()
+    final Paint paint0 = Paint()
       ..color = const Color.fromRGBO(92, 143, 38, 1)
       ..style = PaintingStyle.fill
       ..strokeWidth = 1;
 
-    Path path0 = Path();
+    final Path path0 = Path();
     path0.moveTo(0, size.height * 0.5157143);
     //path0.cubicTo(size.width * 0.1772917, size.height * 0.5096429, size.width * 0.2979167, size.height * 0.8285714, size.width * 0.4608333, size.height * 0.5857143);
     path0.cubicTo(size.width * 0.1772917, size.height * 0.5096429, size.width * 0.2979167, size.height * 0.7285714, size.width * 0.4608333, size.height * 0.60057143);

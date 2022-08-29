@@ -2,7 +2,7 @@ import 'package:learland/_all.dart';
 
 class WorkPage extends StatefulWidget {
   const WorkPage({super.key});
-  static const routeName = "/work-page";
+  static const routeName = '/work-page';
   @override
   State<WorkPage> createState() => _WorkPageState();
 }
@@ -12,6 +12,7 @@ class _WorkPageState extends State<WorkPage> {
   late String title;
   @override
   void initState() {
+    context.read<ErrorBloc>().add(ResetErrorHandlerEvent());
     super.initState();
   }
 
@@ -71,12 +72,12 @@ class _WorkPageState extends State<WorkPage> {
             BottomNavigationBarItem(
               icon: Image.asset('assets/img/icons/rucni-crne.png'),
               activeIcon: Image.asset('assets/img/icons/rucni-bijele.png'),
-              label: "Ručni mod",
+              label: 'Ručni mod',
             ),
             BottomNavigationBarItem(
               icon: Image.asset('assets/img/icons/home_automation-crne.png'),
               activeIcon: Image.asset('assets/img/icons/home_automation-bijele.png'),
-              label: "Automatski mod",
+              label: 'Automatski mod',
             ),
           ],
         ),

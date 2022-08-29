@@ -14,7 +14,7 @@ class LoadBloc extends Bloc<LoadEvent, LoadState> {
 
   Future<void> getBySearch(LoadBySearchEvent event, Emitter emit) async {
     if (state.names != null) {
-      final searched = state.names!.where(((element) => element.toLowerCase().startsWith(event.searchText.toLowerCase()))).toList();
+      final searched = state.names!.where((element) => element.toLowerCase().startsWith(event.searchText.toLowerCase())).toList();
       emit(state.copyWith(searchNames: searched));
     }
   }

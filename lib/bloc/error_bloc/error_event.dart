@@ -4,18 +4,16 @@ import 'package:learland/_all.dart';
 @immutable
 abstract class ErrorEvent {}
 
-@immutable
-class AddErrorEvent extends ErrorEvent {
-  final String key;
-  AddErrorEvent({
-    required this.key,
+class AddErrorHandlerEvent extends ErrorEvent {
+  final bool? parametersError;
+  final bool? manualError;
+  final bool? smartError;
+  final bool? timedError;
+  AddErrorHandlerEvent({
+    this.parametersError,
+    this.manualError,
+    this.smartError,
+    this.timedError,
   });
 }
-
-@immutable
-class RemoveAllErrors extends ErrorEvent {
-  final String key;
-  RemoveAllErrors({
-    required this.key,
-  });
-}
+class ResetErrorHandlerEvent extends ErrorEvent{}

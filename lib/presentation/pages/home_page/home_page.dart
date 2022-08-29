@@ -2,13 +2,13 @@ import 'package:learland/_all.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
-  static const String routeName = "/home";
+  static const String routeName = '/home';
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
-    context.read<LoadBloc>().add(LoadGetNamesEvent(uid: ""));
-    context.read<SnapshotBloc>().add(LoadSnapshotEvent(uid: context.read<AuthBloc>().state.user!.user!.uid, name: "Staklenik1"));
+    context.read<LoadBloc>().add(LoadGetNamesEvent(uid: ''));
+    context.read<SnapshotBloc>().add(LoadSnapshotEvent(uid: context.read<AuthBloc>().state.user!.user!.uid, name: 'Staklenik1'));
 
     final mediaQuery = MediaQuery.of(context);
     final width = mediaQuery.size.width;
@@ -20,8 +20,8 @@ class HomePage extends StatelessWidget {
           backgroundColor: Colors.white,
           // iconTheme: const IconThemeData(color: ColorStyling.defaultColor),
           title: const Text(
-            "Dobro došli",
-            style: TextStyle(color: ColorStyling.defaultColor, fontFamily: "Montserrat", fontSize: 24),
+            'Dobro došli',
+            style: TextStyle(color: ColorStyling.defaultColor, fontFamily: 'Montserrat', fontSize: 24),
           )),
       endDrawer: AppDrawer(page: Pages.homePage),
       body: SingleChildScrollView(
@@ -29,11 +29,6 @@ class HomePage extends StatelessWidget {
           _VrijemeWidget(height: height),
           _BrojAktivnikWidget(),
           _IzvjestajiWidget(),
-          TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, LoadPage.routeName);
-              },
-              child: Text("GO"))
         ]),
       ),
     );
@@ -56,7 +51,7 @@ class _VrijemeWidget extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.all(8.0),
             child: Text(
-              "Vrijeme danas",
+              'Vrijeme danas',
               style: TextStyle(fontSize: 20),
             ),
           ),
@@ -73,7 +68,7 @@ class _VrijemeWidget extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
-                  "21",
+                  '21',
                   style: TextStyle(fontSize: 20),
                 ),
               ),
@@ -98,7 +93,7 @@ class _BrojAktivnikWidget extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.all(8.0),
             child: Text(
-              "Broj aktivnik staklenika",
+              'Broj aktivnik staklenika',
               style: TextStyle(fontSize: 20),
             ),
           ),
@@ -110,7 +105,7 @@ class _BrojAktivnikWidget extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
-                  "9",
+                  '9',
                   style: TextStyle(fontSize: 20),
                 ),
               ),
@@ -133,7 +128,7 @@ class _IzvjestajiWidget extends StatelessWidget {
           padding: const EdgeInsets.only(left: 8, top: 15),
           alignment: Alignment.centerLeft,
           child: const Text(
-            "Izvještaj:",
+            'Izvještaj:',
             style: TextStyle(fontSize: 18, color: Color.fromRGBO(172, 185, 185, 1)),
           ),
         ),
@@ -157,7 +152,7 @@ class _GreskePanel extends StatelessWidget {
       height: height * 0.25,
       decoration: BoxDecoration(color: ColorStyling.error, borderRadius: BorderRadius.circular(32)),
       child: const Text(
-        "Greške: 0",
+        'Greške: 0',
         style: TextStyle(fontSize: 20, color: Colors.white),
       ),
     );
@@ -177,7 +172,7 @@ class _UpozorenjePanel extends StatelessWidget {
       height: height * 0.25,
       decoration: BoxDecoration(color: ColorStyling.warning, borderRadius: BorderRadius.circular(32)),
       child: const Text(
-        "Upozrorenja: 0",
+        'Upozrorenja: 0',
         style: TextStyle(fontSize: 20, color: Colors.white),
       ),
     );

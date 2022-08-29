@@ -2,23 +2,28 @@
 import 'package:learland/_all.dart';
 
 class ErrorState {
-  // Map<String, Color> ErrColors = {
-  //   "vlaznostZemlje": ColorStyling.defaultColor,
-  //   "temperaturaZraka": ColorStyling.defaultColor,
-  //   "nivoCo2": ColorStyling.defaultColor,
-  //   "jakostSvjetla": ColorStyling.defaultColor,
-  // };
-  final Map<String, Color> colors;
+  final bool parametersError;
+  final bool manualError;
+  final bool smartError;
+  final bool timedError;
   ErrorState({
-    required this.colors,
+    required this.parametersError,
+    required this.manualError,
+    required this.smartError,
+    required this.timedError,
   });
 
-
   ErrorState copyWith({
-    Map<String, Color>? colors,
+    bool? parametersError,
+    bool? manualError,
+    bool? smartError,
+    bool? timedError,
   }) {
     return ErrorState(
-      colors: colors ?? this.colors,
+      parametersError: parametersError ?? this.parametersError,
+      manualError: manualError ?? this.manualError,
+      smartError: smartError ?? this.smartError,
+      timedError: timedError ?? this.timedError,
     );
   }
 }

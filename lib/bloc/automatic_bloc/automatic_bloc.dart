@@ -2,7 +2,8 @@ import 'package:learland/_all.dart';
 
 class AutomaticBloc extends Bloc<AutomaticEvent, AutomaticState> {
   final IAutomaticRepository automaticRepository;
-  AutomaticBloc({required this.automaticRepository}) : super(AutomaticState(timedStatus: AutomaticTimedStateStatus.initial, smartStatus: AutomaticSmartStateStatus.initial, dateTimeVrijednosti: const {}, smartVrijednosti: const {})) {
+  final ErrorBloc errorBloc;
+  AutomaticBloc({required this.automaticRepository, required this.errorBloc}) : super(const AutomaticState(timedStatus: AutomaticTimedStateStatus.initial, smartStatus: AutomaticSmartStateStatus.initial, dateTimeVrijednosti: {}, smartVrijednosti: {})) {
     on<LoadSmartAutoEvent>(loadSmart);
     on<AddSmartAutoEvent>(addSmart);
     on<LoadTimeAutoEvent>(loadTIme);
@@ -11,14 +12,22 @@ class AutomaticBloc extends Bloc<AutomaticEvent, AutomaticState> {
   Future<void> loadSmart(LoadSmartAutoEvent event, Emitter<AutomaticState> emit) async {
     emit(state.copyWith(smartStatus: AutomaticSmartStateStatus.loading));
     final data = await automaticRepository.getSmart(event.uid, event.name);
-    emit(state.copyWith(smartStatus: AutomaticSmartStateStatus.loaded, smartVrijednosti: data));
+    if (data != null && data.isNotEmpty) {
+      emit(state.copyWith(smartStatus: AutomaticSmartStateStatus.loaded, smartVrijednosti: data));
+    } else {
+      errorBloc.add(AddErrorHandlerEvent(smartError: true));
+    }
   }
 
   Future<void> loadTIme(LoadTimeAutoEvent event, Emitter<AutomaticState> emit) async {
     // Future.delayed(const Duration(milliseconds: 1000));
     emit(state.copyWith(timedStatus: AutomaticTimedStateStatus.loading));
     final data = await automaticRepository.getTimed(event.uid, event.name);
-    emit(state.copyWith(timedStatus: AutomaticTimedStateStatus.loaded, dateTimeVrijednosti: data));
+    if (data != null && data.isNotEmpty) {
+      emit(state.copyWith(timedStatus: AutomaticTimedStateStatus.loaded, dateTimeVrijednosti: data));
+    } else {
+      errorBloc.add(AddErrorHandlerEvent(timedError: true));
+    }
   }
 
   Future<void> addSmart(AddSmartAutoEvent event, Emitter<AutomaticState> emit) async {

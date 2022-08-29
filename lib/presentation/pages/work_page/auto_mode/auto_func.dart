@@ -3,34 +3,34 @@ import 'package:learland/_all.dart';
 String getNaziv(TypeOfParametri top) {
   switch (top) {
     case TypeOfParametri.vlaznostZemlje:
-      return "Vlažnost zemlje:";
+      return 'Vlažnost zemlje:';
     case TypeOfParametri.vlaznostZraka:
-      return "Vlažnost zraka:";
+      return 'Vlažnost zraka:';
     case TypeOfParametri.temperaturaZemlje:
-      return "Temperatura zemlje:";
+      return 'Temperatura zemlje:';
     case TypeOfParametri.temperaturaZraka:
-      return "Temperatura zraka:";
+      return 'Temperatura zraka:';
     case TypeOfParametri.nivoCo2:
-      return "Nivo CO2 u zraku:";
+      return 'Nivo CO2 u zraku:';
     case TypeOfParametri.jakostSvjetla:
-      return "Jakost svjetla:";
+      return 'Jakost svjetla:';
   }
 }
 
 String getJedinica(TypeOfParametri top) {
   switch (top) {
     case TypeOfParametri.vlaznostZemlje:
-      return "ppm/m";
+      return 'ppm/m';
     case TypeOfParametri.vlaznostZraka:
-      return "ppm/m";
+      return 'ppm/m';
     case TypeOfParametri.temperaturaZemlje:
-      return "°C";
+      return '°C';
     case TypeOfParametri.temperaturaZraka:
-      return "°C";
+      return '°C';
     case TypeOfParametri.nivoCo2:
-      return "%";
+      return '%';
     case TypeOfParametri.jakostSvjetla:
-      return "jak";
+      return 'jak';
   }
 }
 
@@ -38,16 +38,16 @@ bool validatorValues(String key, Map<String, dynamic> vrijednosti) {
   if (vrijednosti[key] == -1123) {
     return false;
   }
-  if (key != "jakostSvjetla") {
-    if (vrijednosti["${key}1"]! > vrijednosti["${key}2"]!) {
-      // _loadUI("data", context);
+  if (key != 'jakostSvjetla') {
+    if (vrijednosti['${key}1']! > vrijednosti['${key}2']!) {
+      // _loadUI('data', context);
       return false;
     }
-    if (vrijednosti["${key}1"]! < 0) {
+    if (vrijednosti['${key}1']! < 0) {
       return false;
     }
-    if (key == "nivoCo2") {
-      if (vrijednosti["${key}1"]! < 0 || vrijednosti["${key}1"]! > 100 || vrijednosti["${key}2"]! < 0 || vrijednosti["${key}2"]! > 100) {
+    if (key == 'nivoCo2') {
+      if (vrijednosti['${key}1']! < 0 || vrijednosti['${key}1']! > 100 || vrijednosti['${key}2']! < 0 || vrijednosti['${key}2']! > 100) {
         return false;
       }
     }
@@ -67,10 +67,10 @@ bool validatorValues(String key, Map<String, dynamic> vrijednosti) {
 //             actions: [
 //               TextButton(
 //                 onPressed: () => Navigator.of(context).pop(),
-//                 child: const Text("OK"),
+//                 child: const Text('OK'),
 //               )
 //             ],
-//             title: const Text("Something went wrong"),
+//             title: const Text('Something went wrong'),
 //             content: Text(data),
 //           );
 //         });

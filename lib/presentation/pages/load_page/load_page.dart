@@ -1,8 +1,8 @@
 import 'package:learland/_all.dart';
 
 class LoadPage extends StatefulWidget {
-  LoadPage({super.key});
-  static const routeName = "/load-page";
+  const LoadPage({super.key});
+  static const routeName = '/load-page';
 
   @override
   State<LoadPage> createState() => _LoadPageState();
@@ -18,14 +18,13 @@ class _LoadPageState extends State<LoadPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     context.read<LoadBloc>().add(LoadGetNamesEvent(uid: context.read<AuthBloc>().state.user!.user!.uid));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    // context.read<SnapshotBloc>().add(LoadSnapshotEvent(uid: context.read<AuthBloc>().state.user!.user!.uid, name: "Staklenik1"));
+    // context.read<SnapshotBloc>().add(LoadSnapshotEvent(uid: context.read<AuthBloc>().state.user!.user!.uid, name: 'Staklenik1'));
 
     return Scaffold(
       key: _scaffoldKey,
@@ -35,8 +34,8 @@ class _LoadPageState extends State<LoadPage> {
         backgroundColor: Colors.white,
         // iconTheme: const IconThemeData(color: ColorStyling.defaultColor),
         title: const Text(
-          "Dobro došli",
-          style: TextStyle(color: ColorStyling.defaultColor, fontFamily: "Montserrat", fontSize: 24),
+          'Dobro došli',
+          style: TextStyle(color: ColorStyling.defaultColor, fontFamily: 'Montserrat', fontSize: 24),
         ),
       ),
       body: BlocListener<LoadBloc, LoadState>(
@@ -67,11 +66,11 @@ class _LoadPageState extends State<LoadPage> {
                       padding: const EdgeInsets.all(10.0),
                       itemCount: 2,
                       shrinkWrap: true,
-                      itemBuilder: ((context, index) => ClipRRect(
+                      itemBuilder: (context, index) => ClipRRect(
                           borderRadius: BorderRadius.circular(10),
                           child: Container(
                             decoration: BoxDecoration(borderRadius: BorderRadius.circular(24), color: const Color.fromRGBO(162, 191, 132, 1), border: Border.all(strokeAlign: StrokeAlign.inside, color: ColorStyling.defaultColor, width: 2)),
-                          ))),
+                          )),
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1, crossAxisSpacing: 10, mainAxisExtent: 150),
                     ),
                   ],
@@ -90,7 +89,7 @@ class _LoadPageState extends State<LoadPage> {
                             onChanged: (value) {
                               context.read<LoadBloc>().add(LoadBySearchEvent(searchText: value));
                             },
-                            decoration: const InputDecoration(border: InputBorder.none, hintText: "Pretraži...", contentPadding: EdgeInsets.only(left: 15, bottom: 12), hintStyle: TextStyle(color: Color.fromRGBO(0, 102, 242, 1))),
+                            decoration: const InputDecoration(border: InputBorder.none, hintText: 'Pretraži...', contentPadding: EdgeInsets.only(left: 15, bottom: 12), hintStyle: TextStyle(color: Color.fromRGBO(0, 102, 242, 1))),
                           ),
                         ),
                         trailing: const Icon(Icons.search, color: ColorStyling.defaultColor, size: 32),
@@ -99,10 +98,11 @@ class _LoadPageState extends State<LoadPage> {
                     BlocBuilder<LoadBloc, LoadState>(
                       builder: (context, state) {
                         return GridView.builder(
+                          physics: const ScrollPhysics(),
                           padding: const EdgeInsets.all(10.0),
                           itemCount: state.searchNames == null ? state.getLenght : state.getSearchLenght,
                           shrinkWrap: true,
-                          itemBuilder: ((context, index) => LoadItem(name: state.searchNames == null ? state.names![index] : state.searchNames![index])),
+                          itemBuilder: (context, index) => LoadItem(name: state.searchNames == null ? state.names![index] : state.searchNames![index]),
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1, crossAxisSpacing: 10, mainAxisExtent: 150, mainAxisSpacing: 10),
                         );
                       },
@@ -121,7 +121,7 @@ class _LoadPageState extends State<LoadPage> {
             builder: (_) {
               return GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                child: LoadAddModal(),
+                child: const LoadAddModal(),
               );
             }),
       ),

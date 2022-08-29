@@ -1,8 +1,8 @@
-import "package:learland/_all.dart";
+import 'package:learland/_all.dart';
 
 class LoadItem extends StatelessWidget {
   final String name;
-  const LoadItem({required this.name});
+  const LoadItem({super.key, required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +10,7 @@ class LoadItem extends StatelessWidget {
       borderRadius: BorderRadius.circular(10),
       child: InkWell(
         onTap: () {
-          Navigator.of(context).pushNamed(WorkPage.routeName, arguments: {"title": name});
+          Navigator.of(context).pushNamed(WorkPage.routeName, arguments: {'title': name});
         },
         // decoration: BoxDecoration(color: ColorStyling.defaultColor,borderRadius: BorderRadius.circular(24)),
         child: Container(
@@ -18,7 +18,7 @@ class LoadItem extends StatelessWidget {
           alignment: Alignment.center,
           child: Text(
             name,
-            style: const TextStyle(fontSize: 20, color: Colors.white, fontFamily: "MontSerrat"),
+            style: const TextStyle(fontSize: 20, color: Colors.white, fontFamily: 'MontSerrat'),
           ),
         ),
       ),

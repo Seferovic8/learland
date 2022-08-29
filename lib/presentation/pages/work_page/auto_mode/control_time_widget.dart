@@ -21,11 +21,11 @@ class TimeControlWidget extends TimeWidget {
   final txt2 = TextEditingController();
 
   // _TimeControlWidgetState(this.width, this.title);
-  TimeControlWidget({required this.width, required this.title});
+  TimeControlWidget({super.key, required this.width, required this.title});
 
   String? validateDate(String value) {
     if (value.length != 5) {
-      return "";
+      return '';
     }
     return null;
   }
@@ -35,37 +35,49 @@ class TimeControlWidget extends TimeWidget {
   @override
   Widget build(BuildContext context) {
     // txt.addListener
-    return BlocBuilder<AutomaticBloc, AutomaticState>(
-      builder: (context, state) {
-        if (state.timedStatus == AutomaticTimedStateStatus.loaded) {
-          Future.delayed(Duration.zero, () async {
-            txt.text = state.dateTimeVrijednosti["${title.toLowerCase()}1"];
-            txt2.text = state.dateTimeVrijednosti["${title.toLowerCase()}2"];
-            txtPreviusLenght = txt.text.length;
-            txt2PreviusLenght = txt2.text.length;
-          });
-        }
-        return Container(
-          margin: const EdgeInsets.only(top: 20),
-          width: width * 0.8,
-          height: 90,
-          decoration: BoxDecoration(border: Border.all(color: ColorStyling.defaultColor, width: 2), borderRadius: BorderRadius.circular(23)),
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(color: ColorStyling.defaultColor, fontSize: 20, fontWeight: FontWeight.normal, fontFamily: "Roboto"),
-                ),
-                Padding(
+    return BlocBuilder<AutomaticBloc, AutomaticState>(builder: (context, state) {
+      if (state.timedStatus == AutomaticTimedStateStatus.loaded) {
+        Future.delayed(Duration.zero, () async {
+          txt.text = state.dateTimeVrijednosti['${title.toLowerCase()}1'];
+          txt2.text = state.dateTimeVrijednosti['${title.toLowerCase()}2'];
+          txtPreviusLenght = txt.text.length;
+          txt2PreviusLenght = txt2.text.length;
+        });
+      }
+      return Container(
+        margin: const EdgeInsets.only(top: 20),
+        width: width * 0.8,
+        height: 90,
+        decoration: BoxDecoration(border: Border.all(color: ColorStyling.defaultColor, width: 2), borderRadius: BorderRadius.circular(23)),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: BlocBuilder<ErrorBloc, ErrorState>(
+            builder: (context, errorState) {
+              if (errorState.timedError) {
+            return Container(
+              padding: const EdgeInsets.all(12),
+              width: width * 0.8,
+              height: 30,
+              child: const Text(
+                'Dogodila se greška',
+                style: TextStyle(color: ColorStyling.error),
+              ),
+            );
+          }
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(color: ColorStyling.defaultColor, fontSize: 20, fontWeight: FontWeight.normal, fontFamily: 'Roboto'),
+                  ),
+                  Padding(
                     padding: const EdgeInsets.all(7.0),
                     child: Row(
                       children: [
                         const Text(
-                          "Uključi u:",
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal, fontFamily: "Roboto"),
+                          'Uključi u:',
+                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal, fontFamily: 'Roboto'),
                         ),
                         Container(
                           //margin: const EdgeInsets.only(top: 1),
@@ -75,34 +87,34 @@ class TimeControlWidget extends TimeWidget {
 
                           child: [AutomaticTimedStateStatus.loaded, AutomaticTimedStateStatus.updated].contains(state.timedStatus)
                               ? TextFormField(
-                                  decoration: const InputDecoration(errorStyle: TextStyle(height: 0), counterText: ""),
+                                  decoration: const InputDecoration(errorStyle: TextStyle(height: 0), counterText: ''),
                                   keyboardType: TextInputType.datetime,
-                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal, fontFamily: "Roboto"),
+                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal, fontFamily: 'Roboto'),
                                   maxLength: 5,
                                   controller: txt,
                                   onChanged: (value) {
                                     if (value.length >= 2) {
                                       var start = value.substring(0, 2);
-                                      double? startnum = double.tryParse(start);
+                                      final double? startnum = double.tryParse(start);
                                       if (startnum != null) {
                                         if (startnum >= 24) {
-                                          start = "23";
+                                          start = '23';
                                         }
                                       }
-                                      String end = "";
+                                      String end = '';
                                       if (value.length >= 3) {
                                         end = value.substring(3);
                                       }
-                                      double? endnum = double.tryParse(end);
+                                      final double? endnum = double.tryParse(end);
                                       if (endnum != null) {
                                         if (endnum >= 60) {
-                                          end = "59";
+                                          end = '59';
                                         }
                                       }
 
-                                      var newValue = "$start:$end";
+                                      var newValue = '$start:';
                                       if (newValue.length < txtPreviusLenght) {
-                                        newValue = "";
+                                        newValue = '';
                                       }
                                       txt.text = newValue;
                                       txt.selection = TextSelection.fromPosition(
@@ -114,9 +126,9 @@ class TimeControlWidget extends TimeWidget {
                                   validator: (value) => validateDate(value as String),
                                   onSaved: (newValue) {
                                     if (newValue != null && newValue.isNotEmpty) {
-                                      dateTimeVrijednosti["${title.toLowerCase()}1"] = newValue;
+                                      dateTimeVrijednosti['${title.toLowerCase()}1'] = newValue;
                                     } else {
-                                      dateTimeVrijednosti["${title.toLowerCase()}1"] = "";
+                                      dateTimeVrijednosti['${title.toLowerCase()}1'] = '';
                                     }
                                   },
                                 )
@@ -127,16 +139,16 @@ class TimeControlWidget extends TimeWidget {
                         ),
                         // Text(
                         //  getJedinica(typeOfParametri),
-                        //  style: typeOfParametri == TypeOfParametri.vlaznostZemlje ? const TextStyle(fontSize: 12, fontWeight: FontWeight.normal, fontFamily: "Roboto") : const TextStyle(fontSize: 18, fontWeight: FontWeight.normal, fontFamily: "Roboto"),
+                        //  style: typeOfParametri == TypeOfParametri.vlaznostZemlje ? const TextStyle(fontSize: 12, fontWeight: FontWeight.normal, fontFamily: 'Roboto') : const TextStyle(fontSize: 18, fontWeight: FontWeight.normal, fontFamily: 'Roboto'),
                         //  ),
                         const Padding(
                           padding: EdgeInsets.only(left: 7),
                           child: Text(
-                            "do",
+                            'do',
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.normal,
-                              fontFamily: "Roboto",
+                              fontFamily: 'Roboto',
                             ),
                           ),
                         ),
@@ -149,30 +161,30 @@ class TimeControlWidget extends TimeWidget {
                               ? TextFormField(
                                   decoration: const InputDecoration(errorStyle: TextStyle(height: 0)),
                                   keyboardType: TextInputType.datetime,
-                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal, fontFamily: "Roboto"),
+                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal, fontFamily: 'Roboto'),
                                   controller: txt2,
                                   onChanged: (value) {
                                     if (value.length >= 2) {
                                       var start = value.substring(0, 2);
-                                      double? startnum = double.tryParse(start);
+                                      final double? startnum = double.tryParse(start);
                                       if (startnum != null) {
                                         if (startnum >= 24) {
-                                          start = "23";
+                                          start = '23';
                                         }
                                       }
-                                      String end = "";
+                                      String end = '';
                                       if (value.length >= 3) {
                                         end = value.substring(3);
                                       }
-                                      double? endnum = double.tryParse(end);
+                                      final double? endnum = double.tryParse(end);
                                       if (endnum != null) {
                                         if (endnum >= 60) {
-                                          end = "59";
+                                          end = '59';
                                         }
                                       }
-                                      var newValue = "$start:$end";
+                                      var newValue = ':';
                                       if (newValue.length < txt2PreviusLenght) {
-                                        newValue = "";
+                                        newValue = '';
                                       }
 
                                       txt2.text = newValue;
@@ -185,9 +197,9 @@ class TimeControlWidget extends TimeWidget {
                                   validator: (value) => validateDate(value as String),
                                   onSaved: (newValue) {
                                     if (newValue != null && newValue.isNotEmpty) {
-                                      dateTimeVrijednosti["${title.toLowerCase()}2"] = newValue;
+                                      dateTimeVrijednosti['${title.toLowerCase()}2'] = newValue;
                                     } else {
-                                      dateTimeVrijednosti["${title.toLowerCase()}2"] = "";
+                                      dateTimeVrijednosti['${title.toLowerCase()}2'] = '';
                                     }
                                   },
                                 )
@@ -197,13 +209,14 @@ class TimeControlWidget extends TimeWidget {
                                 ),
                         ),
                       ],
-                      //  ),
-                    ))
-              ],
-            ),
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
-        );
-      },
-    );
+        ),
+      );
+    });
   }
 }

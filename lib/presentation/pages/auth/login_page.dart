@@ -1,7 +1,7 @@
 import 'package:learland/_all.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({super.key});
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -21,36 +21,38 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    String email = "";
-    String password = "";
-    double height = mediaQuery.size.height;
-    double width = mediaQuery.size.width;
+    // ignore: unused_local_variable
+    String email;
+    // ignore: unused_local_variable
+    String password;
+    final double height = mediaQuery.size.height;
+    final double width = mediaQuery.size.width;
     void saveForm() {
       FocusScope.of(context).requestFocus(_loginButtFocusNode);
       //! | promijenuti null ovdje
       if (!_form.currentState!.validate()) {
         _form.currentState!.save();
         // context.read<AuthBloc>().add(AuthLoginEvent(authModel: AuthModel(email: email, password: password)));
-        context.read<AuthBloc>().add(AuthLoginEvent(authModel: AuthModel(email: "salihseferovic05@gmail.com", password: "kucakuca")));
+        context.read<AuthBloc>().add(AuthLoginEvent(authModel: AuthModel(email: 'salihseferovic05@gmail.com', password: 'kucakuca')));
       }
     }
 
     String? validateEmail(String data) {
       if (data.isEmpty) {
-        return "Unesite email";
+        return 'Unesite email';
       }
       if (!data.isValidEmail()) {
-        return "Provjeri Email";
+        return 'Provjeri Email';
       }
       return null;
     }
 
     String? validatePassword(String data) {
       if (data.isEmpty) {
-        return "Unesite lozinku";
+        return 'Unesite lozinku';
       }
       if (data.length < 8) {
-        return "Lozinka mora imati 8 ili više znakova";
+        return 'Lozinka mora imati 8 ili više znakova';
       }
       return null;
     }
@@ -69,7 +71,7 @@ class _LoginPageState extends State<LoginPage> {
                 //  mainAxisAlignment: MainAxisAlignment.center,
                 // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset("assets/img/logo.png"),
+                  Image.asset('assets/img/logo.png'),
                   Container(
                     width: width,
                     padding: const EdgeInsets.all(8.0),
@@ -80,13 +82,13 @@ class _LoginPageState extends State<LoginPage> {
                         children: [
                           TextFormField(
                             validator: (value) => validateEmail(value as String),
-                            decoration: const InputDecoration(labelText: "E-mail"),
+                            decoration: const InputDecoration(labelText: 'E-mail'),
                             keyboardType: TextInputType.emailAddress,
                             onSaved: (newValue) => email = newValue as String,
                             onFieldSubmitted: (_) => FocusScope.of(context).requestFocus(_passwordFocusNode),
                           ),
                           TextFormField(
-                            decoration: const InputDecoration(labelText: "Password"),
+                            decoration: const InputDecoration(labelText: 'Password'),
                             keyboardType: TextInputType.visiblePassword,
                             obscureText: true,
                             autocorrect: false,
@@ -107,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                     if (state.status == AuthStateStatus.authenticated) {
                       Navigator.pushReplacementNamed(context, LoadPage.routeName);
                     }
-                  }, builder: ((context, state) {
+                  }, builder: (context, state) {
                     if (state.status == AuthStateStatus.error) {
                       return _ErrorPrint(
                         width: width,
@@ -115,7 +117,7 @@ class _LoginPageState extends State<LoginPage> {
                       );
                     }
                     return Container();
-                  })),
+                  }),
                 ],
               ),
             ),
@@ -171,7 +173,7 @@ class _LoginButton extends StatelessWidget {
             )),
           ),
           child: const Text(
-            "Prijavi se",
+            'Prijavi se',
             style: TextStyle(fontSize: 25),
           ),
         ),
@@ -220,7 +222,7 @@ class _ForgetPasswordButton extends StatelessWidget {
         child: TextButton(
             onPressed: () {},
             child: const Text(
-              "Zaboravili ste lozinku?",
+              'Zaboravili ste lozinku?',
               style: TextStyle(fontSize: 16),
             )),
       ),
@@ -237,7 +239,7 @@ class _CreateAccountButton extends StatelessWidget {
         child: TextButton(
             onPressed: () {},
             child: const Text(
-              "Kreiraj korisnički račun",
+              'Kreiraj korisnički račun',
               style: TextStyle(fontSize: 16),
             )),
       ),

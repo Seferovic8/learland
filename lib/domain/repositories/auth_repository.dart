@@ -11,19 +11,19 @@ class AuthRepository extends IAuthRepository {
       final user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: model.email, password: model.password);
       state = state.copyWith(status: AuthStateStatus.authenticated, success: true, error: null, user: user);
     } on FirebaseAuthException catch (e) {
-      state = state.copyWith(status: AuthStateStatus.error, success: false, error: "Greška", user: null);
+      state = state.copyWith(status: AuthStateStatus.error, success: false, error: 'Greška', user: null);
       switch (e.code) {
-        case "user-not-found":
-          state = state.copyWith(error: "Email ili lozinka nisu točni");
+        case 'user-not-found':
+          state = state.copyWith(error: 'Email ili lozinka nisu točni');
           break;
-        case "invalid-email":
-          state = state.copyWith(error: "Nevažeći email");
+        case 'invalid-email':
+          state = state.copyWith(error: 'Nevažeći email');
           break;
-        case "invalid-password":
-          state = state.copyWith(error: "Nevažeća lozinka");
+        case 'invalid-password':
+          state = state.copyWith(error: 'Nevažeća lozinka');
           break;
-        case "wrong-password":
-          state = state.copyWith(error: "Netočna lozinka");
+        case 'wrong-password':
+          state = state.copyWith(error: 'Netočna lozinka');
           break;
       }
     }
